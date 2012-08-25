@@ -1,27 +1,18 @@
-package uk.co.olliesilviotti.games.LD24
-{
+package uk.co.olliesilviotti.games.LD24 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import net.flashpunk.Engine;
 	
 	/**
 	 * ...
 	 * @author ollie silviotti
 	 */
-	public class Main extends Sprite 
-	{
+	public class Main extends Engine {
 		
-		public function Main():void 
-		{
-			if (stage) init();
-			else addEventListener(Event.ADDED_TO_STAGE, init);
+		public function Main():void {
+			super(960, 540, 60, false);
 		}
-		
-		private function init(e:Event = null):void 
-		{
-			removeEventListener(Event.ADDED_TO_STAGE, init);
-			// entry point
-		}
-		
+
 	}
 	
 }
