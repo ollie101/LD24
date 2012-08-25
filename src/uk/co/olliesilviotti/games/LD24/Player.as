@@ -1,4 +1,6 @@
 package uk.co.olliesilviotti.games.LD24 {
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.graphics.Image;
@@ -7,6 +9,7 @@ package uk.co.olliesilviotti.games.LD24 {
 	import net.flashpunk.graphics.Graphiclist;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
+	import net.flashpunk.FP
 	
 	/**
 	 * ...
@@ -16,6 +19,8 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		[Embed(source = "../../../../../../lib/dino.png")] private const DINO_SPRITE:Class;
 		private var spriteSheet:Spritemap;
+		public static var health:uint = 10;
+		public static var speed:uint = 5;
 		
 		public function Player(x:Number = 0, y:Number = 0, graphic:Graphic = null, mask:Mask = null) {
 			width = 128;
@@ -25,6 +30,8 @@ package uk.co.olliesilviotti.games.LD24 {
 			spriteSheet = new Spritemap(DINO_SPRITE, width, height);
 			spriteSheet.add("runLeft", [1]);
 			spriteSheet.add("runRight", [0]);
+			
+			setHitbox(width, height, width / 4, 0);
 			
 			graphic = new Graphiclist(spriteSheet);
 			
@@ -38,7 +45,7 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		public override function update():void {		
 			if (Input.check("left")) {
-				x -= 5;
+				x -= Player.speed;
 				spriteSheet.play("runLeft");
 				if (x < 0) {
 					x = 0;
@@ -46,7 +53,7 @@ package uk.co.olliesilviotti.games.LD24 {
 			}
 			
 			if (Input.check("right")) {
-				x += 5;
+				x += Player.speed;
 				spriteSheet.play("runRight");
 				if (x > (960 - width)) {
 					x = 960 - width;
@@ -55,7 +62,8 @@ package uk.co.olliesilviotti.games.LD24 {
 			
 			var meteor:Meteor = collide("meteor", x, y) as Meteor;
 			if (meteor) {
-				trace("HIT");
+				meteor.explode();
+				Player.health -= 1;
 			}
 		}
 	}

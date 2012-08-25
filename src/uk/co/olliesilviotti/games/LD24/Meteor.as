@@ -16,6 +16,7 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		[Embed(source = "../../../../../../lib/meteor.png")] private const METEOR_IMG:Class;
 		[Embed(source = "../../../../../../lib/smoke.png")] private const SMOKE_IMG:Class;
+		[Embed(source = "../../../../../../lib/meteor_particles.png")] private const METEOR_PARTICLES:Class;
 		private var meteorSpriteMap:Spritemap;
 		private var smokeSpriteMap:Spritemap;
 		private var emitter:Emitter;
@@ -26,12 +27,20 @@ package uk.co.olliesilviotti.games.LD24 {
 			width = 64;
 			height = 64;
 			
-			smokeSpriteMap = new Spritemap(SMOKE_IMG, 64, 64);
+			meteorSpriteMap = new Spritemap(METEOR_IMG, 64, 64);
 			
-			emitter = new Emitter(METEOR_IMG, 64, 64);
-			emitter.newType("smokeTrail", [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+			emitter = new Emitter(SMOKE_IMG, 32, 32);
+			emitter.relative = false;
+			emitter.newType("smokeTrail", [0]);
+			emitter.setAlpha("smokeTrail", 0, 0.4);
+			emitter.setMotion("smokeTrail", 90, 0, 2);
 			
-			graphic = new Graphiclist(meteorSpriteMap);
+			emitter.setSource(METEOR_PARTICLES, 8, 8);
+			emitter.newType("explode", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+			emitter.setAlpha("explode", 0, 1);
+			emitter.setMotion("explode", 0, 100, 10, 360, -90, -5);
+			
+			graphic = new Graphiclist(meteorSpriteMap, emitter);
 			
 			setHitbox(width, height);
 			type = "meteor";
@@ -47,6 +56,23 @@ package uk.co.olliesilviotti.games.LD24 {
 			if (y > 540) {
 				FP.world.remove(this);
 			}
+			
+			for (var i:uint = 0; i < 10; i++) {
+				//emitter.emit("smokeTrail", x, y);
+			}
+			
+			if (!collidable && !meteorSpriteMap.visible && emitter.particleCount == 0) {
+				FP.world.remove(this);
+			}
+		}
+		
+		public function explode():void {
+			collidable = false;
+			for (var j:uint = 0; j < 50; j++) {
+				emitter.emit("explode", x, y + 60);
+			}
+			
+			meteorSpriteMap.visible = false;
 		}
 	}
 

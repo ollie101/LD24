@@ -12,7 +12,8 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		public function Main():void {
 			super(960, 540, 60, true);
-			FP.world = new GameWorld;
+			//FP.world = new GameWorld;
+			FP.world = new Menu;
 		}
 
 	}
