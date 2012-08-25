@@ -52,6 +52,11 @@ package uk.co.olliesilviotti.games.LD24 {
 					x = 960 - width;
 				}
 			}
+			
+			var meteor:Meteor = collide("meteor", x, y) as Meteor;
+			if (meteor) {
+				trace("HIT");
+			}
 		}
 	}
 

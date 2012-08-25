@@ -15,14 +15,26 @@ package uk.co.olliesilviotti.games.LD24 {
 	public class Meteor extends Entity {
 		
 		[Embed(source = "../../../../../../lib/meteor.png")] private const METEOR_IMG:Class;
-		private var spriteMap:Spritemap;
+		[Embed(source = "../../../../../../lib/smoke.png")] private const SMOKE_IMG:Class;
+		private var meteorSpriteMap:Spritemap;
+		private var smokeSpriteMap:Spritemap;
 		private var emitter:Emitter;
 		private const _accel:Number = 0.1;
 		private var _speed:Number = 1;
 		
 		public function Meteor(x:Number = 0, y:Number = 0, graphic:Graphic = null, mask:Mask = null) {
-			spriteMap = new Spritemap(METEOR_IMG);
-			graphic = new Graphiclist(spriteMap);
+			width = 64;
+			height = 64;
+			
+			smokeSpriteMap = new Spritemap(SMOKE_IMG, 64, 64);
+			
+			emitter = new Emitter(METEOR_IMG, 64, 64);
+			emitter.newType("smokeTrail", [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+			
+			graphic = new Graphiclist(meteorSpriteMap);
+			
+			setHitbox(width, height);
+			type = "meteor";
 			
 			super(x, y, graphic, mask);
 		}

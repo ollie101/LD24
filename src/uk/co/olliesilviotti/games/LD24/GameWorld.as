@@ -19,7 +19,7 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		override public function update():void {
 			super.update();
-			if (Math.random() * 100 > 95) {
+			if (Math.random() * 100 > 96) {
 				add(new Meteor(Math.random() * 960, -64));
 			}
 		}
