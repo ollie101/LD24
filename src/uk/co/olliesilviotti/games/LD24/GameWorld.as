@@ -11,35 +11,46 @@ package uk.co.olliesilviotti.games.LD24 {
 		[Embed(source = "../../../../../../lib/bg.png")] private const BG_IMG:Class;
 		
 		private var currentRound:uint = 1;
-		private var meteorsThisRound:uint = 20;
+		private var meteorsThisRound:uint = 2;
 		private var meteorsThisRoundSoFar:uint = 0;
 		private var isPaused:Boolean = true;
+		public var player:Player;
+		
+		private const evScreen:EvolveScreen = new EvolveScreen();
 		
 		public function GameWorld() {
 			super();
+			player = new Player;
+			
 			addGraphic(new Image(BG_IMG));
-			add(new Player);
+			add(player);
 			add(new HealthDisplay);
 			isPaused = false;
 		}
 		
 		override public function update():void {		
-			if (!isPaused) {
-				super.update();
-			}
+			super.update();
 			
-			if(meteorsThisRoundSoFar < meteorsThisRound) {
-				if (Math.random() * 100 > 96) {
-					add(new Meteor(Math.random() * 960, -64));
-					meteorsThisRoundSoFar++;
+			if (!isPaused) {
+				if(meteorsThisRoundSoFar < meteorsThisRound) {
+					if (Math.random() * 100 > 96) {
+						add(new Meteor(Math.random() * 960, -64));
+						meteorsThisRoundSoFar++;
+					}
+				} else {
+					if(typeCount("meteor") == 0){
+						isPaused = true;
+						
+						if(typeCount("evolveScreen") == 0){
+							add(evScreen);
+						}
+					}
 				}
 			} else {
-				if(typeCount("meteor") == 0){
-					isPaused = true;
-					
-					if(typeCount("evolveScreen") == 0){
-						add(new EvolveScreen);
-					}
+				if (Player.lastDirLeft) {
+					player.spriteSheet.setFrame(0, 0);
+				} else {
+					player.spriteSheet.setFrame(2, 0);
 				}
 			}
 		}
@@ -49,15 +60,12 @@ package uk.co.olliesilviotti.games.LD24 {
 			meteorsThisRound = Math.ceil(meteorsThisRound * 1.2);
 			meteorsThisRoundSoFar = 0;
 			
-			/*
-			var allEvolveScreens:Array = new Array();
-			getType("evolveScreen", allEvolveScreens);
-			for (var eScreen:EvolveScreen in allEvolveScreens) {
-				remove(eScreen);
-			}
-			*/
+			remove(evScreen);
 		}
 		
+		public function getIsPaused():Boolean {
+			return isPaused ? true : false;
+		}
 	}
 
 }

@@ -18,7 +18,7 @@ package uk.co.olliesilviotti.games.LD24 {
 	public class Player extends Entity {
 		
 		[Embed(source = "../../../../../../lib/dinosheet.png")] private const DINO_SPRITE:Class;
-		private var spriteSheet:Spritemap;
+		public var spriteSheet:Spritemap;
 		
 		public static var initHealth:uint = 10;
 		public static var initSpeed:Number = 5;
@@ -30,7 +30,7 @@ package uk.co.olliesilviotti.games.LD24 {
 		public static const scaleIncr:Number = 0.98;
 		public static const speedIncr:Number = 1.15;
 		
-		private static var lastDirLeft:Boolean = false;
+		public static var lastDirLeft:Boolean = false;
 		
 		public function Player(x:Number = 0, y:Number = 0, graphic:Graphic = null, mask:Mask = null) {
 			Player.reset();
@@ -56,49 +56,51 @@ package uk.co.olliesilviotti.games.LD24 {
 		}
 		
 		public override function update():void {
-			width = 128 * scale;
-			height = 256 * scale;
-			y = 540 - height;
-			spriteSheet.scale = scale;
-			
-			spriteSheet.color = 0xFFFFFF;
-			if (Input.check("left")) {
-				x -= Player.speed;
-				spriteSheet.play("runLeft");
-				if (x < 0) {
-					x = 0;
+			if(!GameWorld(FP.world).getIsPaused()) {
+				width = 128 * scale;
+				height = 256 * scale;
+				y = 540 - height;
+				spriteSheet.scale = scale;
+				
+				spriteSheet.color = 0xFFFFFF;
+				if (Input.check("left")) {
+					x -= Player.speed;
+					spriteSheet.play("runLeft");
+					if (x < 0) {
+						x = 0;
+					}
+					
+					Player.lastDirLeft = true;
 				}
 				
-				Player.lastDirLeft = true;
-			}
-			
-			if (Input.mousePressed) {
-				speedUp();
-			}
-			
-			if (Input.check("right")) {
-				x += Player.speed;
-				spriteSheet.play("runRight");
-				if (x > (960 - width)) {
-					x = 960 - width;
+				if (Input.mousePressed) {
+					speedUp();
 				}
 				
-				Player.lastDirLeft = false;
-			}
-			
-			if (!Input.check("right") && !Input.check("left")) {
-				if(Player.lastDirLeft){
-					spriteSheet.play("idleL");
-				} else {
-					spriteSheet.play("idleR");
+				if (Input.check("right")) {
+					x += Player.speed;
+					spriteSheet.play("runRight");
+					if (x > (960 - width)) {
+						x = 960 - width;
+					}
+					
+					Player.lastDirLeft = false;
 				}
-			}
-			
-			var meteor:Meteor = collide("meteor", x, y) as Meteor;
-			if (meteor) {
-				meteor.explode();
-				Player.health -= 1;
-				spriteSheet.color = 0xFF0000;
+				
+				if (!Input.check("right") && !Input.check("left")) {
+					if(Player.lastDirLeft){
+						spriteSheet.play("idleL");
+					} else {
+						spriteSheet.play("idleR");
+					}
+				}
+				
+				var meteor:Meteor = collide("meteor", x, y) as Meteor;
+				if (meteor) {
+					meteor.explode();
+					Player.health -= 1;
+					spriteSheet.color = 0xFF0000;
+				}
 			}
 		}
 		
