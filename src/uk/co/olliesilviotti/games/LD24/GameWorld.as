@@ -36,6 +36,10 @@ package uk.co.olliesilviotti.games.LD24 {
 			} else {
 				if(typeCount("meteor") == 0){
 					isPaused = true;
+					
+					if(typeCount("evolveScreen") == 0){
+						add(new EvolveScreen);
+					}
 				}
 				
 				//currentRound++;

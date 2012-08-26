@@ -14,6 +14,11 @@ package uk.co.olliesilviotti.games.LD24 {
 			super();
 			
 			addGraphic(new Image(GO_BG));
+			
+			var playAgain:PlayAgainBtn = new PlayAgainBtn;
+			add(playAgain);
+			playAgain.x = 960 / 4 - (playAgain.width / 2);
+			playAgain.y = (540 / 4) * 3 - (playAgain.height / 2);
 		}
 		
 	}

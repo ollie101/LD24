@@ -19,14 +19,23 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		[Embed(source = "../../../../../../lib/dinosheet.png")] private const DINO_SPRITE:Class;
 		private var spriteSheet:Spritemap;
-		public static var health:uint = 10;
-		public static var speed:uint = 5;
 		
-		private var lastDirLeft:Boolean = false;
+		public static var initHealth:uint = 10;
+		public static var initSpeed:Number = 5;
+		public static var initScale:Number = 1;
+		public static var health:uint;
+		public static var speed:Number;
+		public static var scale:Number;
+		
+		public static const scaleIncr:Number = 0.98;
+		public static const speedIncr:Number = 1.15;
+		
+		private static var lastDirLeft:Boolean = false;
 		
 		public function Player(x:Number = 0, y:Number = 0, graphic:Graphic = null, mask:Mask = null) {
-			width = 128;
-			height = 256;
+			Player.reset();
+			width = 128 * scale;
+			height = 256 * scale;
 			y = 540 - height;
 			
 			spriteSheet = new Spritemap(DINO_SPRITE, width, height);
@@ -34,6 +43,8 @@ package uk.co.olliesilviotti.games.LD24 {
 			spriteSheet.add("runRight", [4, 0, 5, 0], 0.5, true);
 			spriteSheet.add("idleL", [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3], 0.5, true);
 			spriteSheet.add("idleR", [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1], 0.5, true);
+			
+			spriteSheet.scale = scale;
 			
 			graphic = new Graphiclist(spriteSheet);
 			
@@ -45,6 +56,11 @@ package uk.co.olliesilviotti.games.LD24 {
 		}
 		
 		public override function update():void {
+			width = 128 * scale;
+			height = 256 * scale;
+			y = 540 - height;
+			spriteSheet.scale = scale;
+			
 			spriteSheet.color = 0xFFFFFF;
 			if (Input.check("left")) {
 				x -= Player.speed;
@@ -53,7 +69,11 @@ package uk.co.olliesilviotti.games.LD24 {
 					x = 0;
 				}
 				
-				lastDirLeft = true;
+				Player.lastDirLeft = true;
+			}
+			
+			if (Input.mousePressed) {
+				speedUp();
 			}
 			
 			if (Input.check("right")) {
@@ -63,11 +83,11 @@ package uk.co.olliesilviotti.games.LD24 {
 					x = 960 - width;
 				}
 				
-				lastDirLeft = false;
+				Player.lastDirLeft = false;
 			}
 			
 			if (!Input.check("right") && !Input.check("left")) {
-				if(lastDirLeft){
+				if(Player.lastDirLeft){
 					spriteSheet.play("idleL");
 				} else {
 					spriteSheet.play("idleR");
@@ -80,6 +100,25 @@ package uk.co.olliesilviotti.games.LD24 {
 				Player.health -= 1;
 				spriteSheet.color = 0xFF0000;
 			}
+		}
+		
+		public static function speedUp():void {
+			Player.speed *= speedIncr;
+		}
+		
+		public static function shrink():void {
+			Player.scale *= scaleIncr;
+		}
+		
+		public static function healthUp():void {
+			Player.health += 1;
+		}
+		
+		public static function reset():void {
+			Player.health = Player.initHealth;
+			Player.speed = Player.initSpeed;
+			Player.scale = Player.initScale;
+			Player.lastDirLeft = false;
 		}
 	}
 
