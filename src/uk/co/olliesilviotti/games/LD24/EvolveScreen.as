@@ -18,6 +18,7 @@ package uk.co.olliesilviotti.games.LD24 {
 			
 			graphic = new Graphiclist(blackout);
 			type = "evolveScreen";
+			
 			super(x, y, graphic, mask);
 			
 		}

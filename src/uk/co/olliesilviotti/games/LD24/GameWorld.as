@@ -41,11 +41,21 @@ package uk.co.olliesilviotti.games.LD24 {
 						add(new EvolveScreen);
 					}
 				}
-				
-				//currentRound++;
-				//meteorsThisRound = Math.ceil(meteorsThisRound * 1.2);
-				//meteorsThisRoundSoFar = 0;
 			}
+		}
+		
+		public function nextRound():void {
+			currentRound++;
+			meteorsThisRound = Math.ceil(meteorsThisRound * 1.2);
+			meteorsThisRoundSoFar = 0;
+			
+			/*
+			var allEvolveScreens:Array = new Array();
+			getType("evolveScreen", allEvolveScreens);
+			for (var eScreen:EvolveScreen in allEvolveScreens) {
+				remove(eScreen);
+			}
+			*/
 		}
 		
 	}
