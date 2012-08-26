@@ -3,6 +3,7 @@ package uk.co.olliesilviotti.games.LD24 {
 	import flash.events.Event;
 	import net.flashpunk.Engine;
 	import net.flashpunk.FP
+	import net.flashpunk.Splash;
 	
 	/**
 	 * ...
@@ -12,10 +13,10 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		public function Main():void {
 			super(960, 540, 30, true);
-			FP.world = new GameWorld;
-			//FP.world = new Menu;
+			var s:Splash = new Splash(0xFF3366, 0X202020, 60, 20, 50, 720);
+			FP.world.add(s);
+			s.start(new Menu);
 		}
-
 	}
 	
 }

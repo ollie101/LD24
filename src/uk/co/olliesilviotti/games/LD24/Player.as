@@ -20,10 +20,10 @@ package uk.co.olliesilviotti.games.LD24 {
 		[Embed(source = "../../../../../../lib/dinosheet.png")] private const DINO_SPRITE:Class;
 		public var spriteSheet:Spritemap;
 		
-		public static var initHealth:uint = 10;
+		public static var initHealth:Number = 10;
 		public static var initSpeed:Number = 5;
 		public static var initScale:Number = 1;
-		public static var health:uint;
+		public static var health:Number;
 		public static var speed:Number;
 		public static var scale:Number;
 		
@@ -98,7 +98,14 @@ package uk.co.olliesilviotti.games.LD24 {
 				var meteor:Meteor = collide("meteor", x, y) as Meteor;
 				if (meteor) {
 					meteor.explode();
-					Player.health -= 1;
+					if (meteor.scale < 0.75) {
+						Player.health -= 0.5;
+					} else if (meteor.scale > 1.2) {
+						Player.health -= 1.5;
+					} else {
+						Player.health -= 1;
+					}
+					
 					spriteSheet.color = 0xFF0000;
 				}
 			}
@@ -113,6 +120,10 @@ package uk.co.olliesilviotti.games.LD24 {
 		}
 		
 		public static function healthUp():void {
+			if(Player.health == Player.initHealth) {
+				Player.initHealth += 1;
+			}
+			
 			Player.health += 1;
 		}
 		

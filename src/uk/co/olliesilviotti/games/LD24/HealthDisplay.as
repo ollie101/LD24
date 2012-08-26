@@ -31,9 +31,10 @@ package uk.co.olliesilviotti.games.LD24 {
 		
 		override public function update():void {
 			super.update();
-			healthBar.scaleX = Player.health / 10;
+			healthBar.scaleX = Player.health / Player.initHealth;
 			if (Player.health == 0) {
-				FP.world = new GameOver;
+				GameWorld(FP.world).bgMusic.stop();
+				FP.world = new GameOver(GameWorld(FP.world).meteorsMissed);
 			}
 		}
 		
