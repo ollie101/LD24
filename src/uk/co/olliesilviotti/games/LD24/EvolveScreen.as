@@ -50,14 +50,14 @@ package uk.co.olliesilviotti.games.LD24 {
 			healthBtnHover = new Image(HEALTH_UP_BTN_HOVER);
 			healthBtnHover.x = (960 / 3) - btnWidth - 40;
 			healthBtnHover.y = (540 / 4) * 3;
-			speedBtnHover = new Image(SPEED_BTN);
+			speedBtnHover = new Image(SPEED_BTN_HOVER);
 			speedBtnHover.x = ((960 / 3) * 2) - btnWidth - 40;
 			speedBtnHover.y = (540 / 4) * 3;
-			shrinkBtnHover = new Image(SHRINK_BTN);
+			shrinkBtnHover = new Image(SHRINK_BTN_HOVER);
 			shrinkBtnHover.x = 960 - btnWidth - 40;
 			shrinkBtnHover.y = (540 / 4) * 3;
 			
-			gl = new Graphiclist(new Image(SCREEN_BG), healthBtn, speedBtn, shrinkBtn);
+			gl = new Graphiclist(new Image(SCREEN_BG));
 			graphic = gl;
 			type = "evolveScreen";
 			
@@ -68,29 +68,38 @@ package uk.co.olliesilviotti.games.LD24 {
 		override public function update():void {
 			super.update();
 			
-			if ((Input.mouseX > healthBtn.x && Input.mouseX + btnWidth < healthBtn.x &&
-				Input.mouseY > healthBtn.y && Input.mouseY + btnHeight < healthBtn.y) ||
-				(Input.mouseX > healthBtnHover.x && Input.mouseX + btnWidth < healthBtnHover.x &&
-				Input.mouseY > healthBtnHover.y && Input.mouseY + btnHeight < healthBtnHover.y)) {
-					try {
-						gl.remove(healthBtn);
-					} catch (e:Error) { }
-					
-					gl.add(healthBtnHover);
-				} else {
-					try {
-						gl.remove(healthBtnHover);
-					} catch (e:Error) { }
-					
-					gl.add(healthBtn);
-				}
-				
-			if ((Input.mouseX > speedBtn.x && Input.mouseX + btnWidth < speedBtn.x &&
-				Input.mouseY > speedBtn.y && Input.mouseY + btnHeight < speedBtn.y) ||
-				(Input.mouseX > speedBtnHover.x && Input.mouseX + btnWidth < speedBtnHover.x &&
-				Input.mouseY > speedBtnHover.y && Input.mouseY + btnHeight < speedBtnHover.y)) {
+				if ((Input.mouseX > healthBtn.x && Input.mouseX < healthBtn.x + btnWidth &&
+					Input.mouseY > healthBtn.y && Input.mouseY < healthBtn.y + btnHeight) ||
+					(Input.mouseX > healthBtnHover.x && Input.mouseX < healthBtnHover.x + btnWidth &&
+					Input.mouseY > healthBtnHover.y && Input.mouseY < healthBtnHover.y + btnHeight)) {
+						try {
+							gl.remove(healthBtn);
+							if(Input.mousePressed){
+								Player.healthUp();
+								GameWorld(FP.world).nextRound();
+							}
+						} catch (e:Error) { }
+						
+						gl.add(healthBtnHover);
+					} else {
+						try {
+							gl.remove(healthBtnHover);
+						} catch (e:Error) { }
+						
+						gl.add(healthBtn);
+					}
+	
+			
+			if ((Input.mouseX > speedBtn.x && Input.mouseX < speedBtn.x + btnWidth &&
+				Input.mouseY > speedBtn.y && Input.mouseY < speedBtn.y + btnHeight) ||
+				(Input.mouseX > speedBtnHover.x && Input.mouseX < speedBtnHover.x + btnWidth &&
+				Input.mouseY > speedBtnHover.y && Input.mouseY < speedBtnHover.y + btnHeight)) {
 					try {
 						gl.remove(speedBtn);
+						if(Input.mousePressed){
+							Player.speedUp();
+							GameWorld(FP.world).nextRound();
+						}
 					} catch (e:Error) { }
 					
 					gl.add(speedBtnHover);
@@ -102,12 +111,16 @@ package uk.co.olliesilviotti.games.LD24 {
 					gl.add(speedBtn);
 				}
 				
-			if ((Input.mouseX > shrinkBtn.x && Input.mouseX + btnWidth < shrinkBtn.x &&
-				Input.mouseY > shrinkBtn.y && Input.mouseY + btnHeight < shrinkBtn.y) ||
-				(Input.mouseX > shrinkBtnHover.x && Input.mouseX + btnWidth < shrinkBtnHover.x &&
-				Input.mouseY > shrinkBtnHover.y && Input.mouseY + btnHeight < shrinkBtnHover.y)) {
+			if ((Input.mouseX > shrinkBtn.x && Input.mouseX < shrinkBtn.x + btnWidth &&
+				Input.mouseY > shrinkBtn.y && Input.mouseY < shrinkBtn.y + btnHeight) ||
+				(Input.mouseX > shrinkBtnHover.x && Input.mouseX < shrinkBtnHover.x + btnWidth &&
+				Input.mouseY > shrinkBtnHover.y && Input.mouseY < shrinkBtnHover.y + btnHeight)) {
 					try {
 						gl.remove(shrinkBtn);
+						if(Input.mousePressed){
+							Player.shrink();
+							GameWorld(FP.world).nextRound();
+						}
 					} catch (e:Error) { }
 					
 					gl.add(shrinkBtnHover);

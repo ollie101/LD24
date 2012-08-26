@@ -48,9 +48,9 @@ package uk.co.olliesilviotti.games.LD24 {
 				}
 			} else {
 				if (Player.lastDirLeft) {
-					player.spriteSheet.setFrame(0, 0);
-				} else {
 					player.spriteSheet.setFrame(2, 0);
+				} else {
+					player.spriteSheet.setFrame(0, 0);
 				}
 			}
 		}
@@ -61,6 +61,7 @@ package uk.co.olliesilviotti.games.LD24 {
 			meteorsThisRoundSoFar = 0;
 			
 			remove(evScreen);
+			isPaused = false;
 		}
 		
 		public function getIsPaused():Boolean {

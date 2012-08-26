@@ -27,7 +27,7 @@ package uk.co.olliesilviotti.games.LD24 {
 		public static var speed:Number;
 		public static var scale:Number;
 		
-		public static const scaleIncr:Number = 0.98;
+		public static const scaleIncr:Number = 0.9;
 		public static const speedIncr:Number = 1.15;
 		
 		public static var lastDirLeft:Boolean = false;
