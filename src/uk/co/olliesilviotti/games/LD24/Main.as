@@ -11,9 +11,9 @@ package uk.co.olliesilviotti.games.LD24 {
 	public class Main extends Engine {
 		
 		public function Main():void {
-			super(960, 540, 60, true);
-			//FP.world = new GameWorld;
-			FP.world = new Menu;
+			super(960, 540, 30, true);
+			FP.world = new GameWorld;
+			//FP.world = new Menu;
 		}
 
 	}
